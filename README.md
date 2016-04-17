@@ -9,9 +9,13 @@ Final Project Description
 For example if the size inputed was 5(r) x 3(c), then its indexes would be:
 
 A B C
+
 D E F
+
 G H I
+
 J K L
+
 M N O
 
   After the keyboard is created, the application will print the keyboard and then, prompt the user to input a word utlilizing these
