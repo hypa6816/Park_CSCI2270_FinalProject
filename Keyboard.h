@@ -28,8 +28,10 @@ class Keyboard
 		~Keyboard();
 		void createKeyboard(int row, int column);
 		void printKeyboard();
+		bool isLetterInKeyboard(std::string letter);
 		void wordTraversing(std::string word);
-		int *findKeyIndex(string letter);
+		void wordDirections(std::string word);
+		int *findKeyIndex(std::string letter);
 		void deleteKey(std::string name);
 		void insertKey(std::string name);
 		int Row;
