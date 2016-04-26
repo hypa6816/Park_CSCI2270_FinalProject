@@ -4,6 +4,7 @@
 #include <vector>
 #include <fstream>
 #include <sstream>
+#include <cstring>
 #include <string>
 #include <stdlib.h>
 
@@ -20,9 +21,10 @@ int main()
         cout << "======Main Menu======" << endl;
         cout << "1. Create Keyboard" << endl;
         cout << "2. Print Keyboard" << endl;
-        cout << "3. Word Input Traversing" << endl;
+        cout << "3. Directions to Type a Word" << endl;
         cout << "4. Find and Print the Key Index" << endl;
-        cout << "5. Quit" << endl;
+        cout << "5. Check if a Letter is in the Keyboard" << endl;
+        cout << "6. Quit" << endl;
         cin >> option
         ;
         cin.ignore();
@@ -63,7 +65,7 @@ int main()
             cout<< "Please enter a word (in CAPS): "<<endl;
             getline(cin, word);
             cin.ignore();
-            KB.wordTraversing(word);
+            KB.wordDirections(word);
 
             break;
         }
@@ -83,12 +85,30 @@ int main()
         }
         case 5:
         {
+
+            //check if letter is in the keyboard
+            string letter;
+            bool found;
+            cout<< "Please enter a letter (in CAPS): "<<endl;
+            getline(cin, letter);
+            cin.ignore();
+            found = KB.isLetterInKeyboard(letter);
+            if(found==true){
+                cout<<"The letter is in the keyboard."<<endl;
+            }
+            else{
+                cout<<"THe letter is not in the keyboard."<<endl;
+            }
+            break;
+        }
+        case 6:
+        {
             //Quit
             cout << "Goodbye!" << endl;
             break;
         }
         }
     }
-    while(option!=5);
+    while(option!=6);
 }
 
