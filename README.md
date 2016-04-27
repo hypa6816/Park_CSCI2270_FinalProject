@@ -81,3 +81,10 @@ How to Run:
             
   ***(For any option with cin you may have to press enter twice after your input depending on your operating system)***
 
+-------------------------------------------------------------------------------------------------------------------------------
+Dependencies:
+  There are no dependencies for this application.
+-------------------------------------------------------------------------------------------------------------------------------
+System Requirements:
+  Though this application was created for windows, it should have no problem running on a Mac or a Linux 
+-------------------------------------------------------------------------------------------------------------------------------
