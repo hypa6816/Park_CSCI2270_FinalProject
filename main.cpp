@@ -11,7 +11,7 @@ using namespace std;
 int main()
 {
     Keyboard KB;
-    //Making Menu
+    //Start up the menu
     int option = 0;
     do
     {
@@ -63,7 +63,7 @@ int main()
         }
 
         case 3:
-        {
+        {   //Word Directions
             string word;
             cout<< "Please enter a word (in CAPS): "<<endl;
             getline(cin, word);
@@ -73,14 +73,14 @@ int main()
             break;
         }
         case 4:
-        {
+        {   //Find the letter's index
             string letter;
             cout<< "Please enter a letter (in CAPS): "<<endl;
             getline(cin, letter);
             cin.ignore();
-            int *index;
+            int *index; //index is a pointer to an array
             index = KB.findKeyIndex(letter);
-            int row = *(index+0);
+            int row = *(index+0); //row is the first
             int column = *(index+1);
             cout<< "The row of letter, "<<letter<< " is " <<row<<endl;
             cout<< "The column of letter, "<<letter<< " is " <<column<<endl;

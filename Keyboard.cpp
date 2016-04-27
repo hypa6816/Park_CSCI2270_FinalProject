@@ -29,44 +29,45 @@ void Keyboard::createKeyboard(int row, int column){
 
 
 
-    for(int i=0; i<row;i++){
-        Key *node = new Key;
+    for(int i=0; i<row;i++){ // loop through from 0 to the row
+        Key *node = new Key; //create a new Key
         node->letter = NULL;
         node->next=NULL;
         node->previous=NULL;
-        if(alphabet<'Z'){
-            node->letter = alphabet;
-            keyboard[i]= node;
+        if(alphabet<'Z'){ // if alphabet or the letter is less than Z
+            node->letter = alphabet; //input alphabet into the node
+            keyboard[i]= node; //set the first column of each row equal to node
             alphabet++;
-            Key *tmp = keyboard[i];
+            Key *tmp = keyboard[i]; //create a temp struct that is eual to the node.
 
-            for(int j=0; j<column-1;j++){
+            for(int j=0; j<column;j++){
 
-                Key *Next = new Key;
+                Key *Next = new Key; //create a new key Next
                 Next->letter = NULL;
                 Next->next = NULL;
-                node->next = Next;
+                node->next = Next; //the Next struct is the struct following node
                 Next->previous = node;
-                node = node->next;
+                node = node->next; //allow node to traverse to the next node
                 node->letter = alphabet;
-                tmp->next = node;
+                tmp->next = node; //tmp is now behind node
                 node->previous = tmp;
 
                 node->next = NULL;
-                tmp = tmp->next;
+                tmp = tmp->next; //traverse tmp to next tmp which is node now
                 alphabet++;
 
             }
+            alphabet--;
             cout<<endl;
 
         }
         else{
-            //letter is greater than Z (i.e. does not exist)
+            //letter is greater than Z (i.e. does not exist) then we make a node there but input the letter as NULL
             node->letter =NULL;
             keyboard[i]=node;
             Key *tmp = keyboard [i];
-            for(int j=0; j<column-1;j++){
-
+            for(int j=0; j<column;j++){
+                //same formating as before;
                 Key *Next = new Key;
                 Next->letter = NULL;
                 Next->next = NULL;
@@ -86,22 +87,28 @@ void Keyboard::createKeyboard(int row, int column){
 }
 
 void Keyboard::printKeyboard(){
-    for (int i =0; i<Row; i++){
+    //print each letter in the keyboard
+    if(Row!=0 || Column!=0){// if the keyboard is not empty
+        for (int i =0; i<Row; i++){//for all the rows
             if(keyboard[i]!=NULL){
-                Key *tmp = keyboard[i];
+                Key *tmp = keyboard[i]; //set tmp equal to the first node of each row
 
-                while(tmp->next !=NULL){
+                while(tmp->next !=NULL){ //while tmp 's next is not NUll print the letter
                     if(tmp->letter!=NULL){
 
-                        cout<< tmp->letter<<"     ";
+                        cout<< tmp->letter<<"     ";// if tmp has a letter print the letter
                     }
                     else {
-                        cout<<"NULL"<<" ";
+                        cout<<"NULL"<<" "; // if tmp is null print null
                     }
                     tmp =tmp ->next;
 
 
 
+                }
+
+                if(tmp->letter==NULL){
+                    cout<<"NULL";
                 }
                 cout<<endl<<endl;
 
@@ -111,17 +118,23 @@ void Keyboard::printKeyboard(){
                 cout<< "empty row"<<endl;
             }
         }
+    }
+    else{
+        cout<< "The keyboard is empty."<<endl;
+    }
+
 }
 
 bool Keyboard::isLetterInKeyboard(string letter){
+    //check if the letter the user or application inputs is in the keyboard
     bool found = false;
-    for (int i =0; i<Row; i++){
-            if(keyboard[i]!=NULL){
-                Key *tmp = keyboard[i];
+    for (int i =0; i<Row; i++){ //look through all rows
+            if(keyboard[i]!=NULL){ //if the first letter of row is not null
+                Key *tmp = keyboard[i]; //make a pointer to it
                 if(tmp->letter==letter[0]){
                     found = true;
                 }
-                while(tmp->next !=NULL){
+                while(tmp->next !=NULL){ //go through all columns
                     tmp =tmp ->next;
                     if(tmp->letter==letter[0]){
                         found = true;
@@ -141,6 +154,9 @@ void Keyboard::wordDirections(string word){
     //this function will take a word as an input and print the moves to get to each character starting from A or (0,0).
     //The keyboard can only go up and down from the first column of the keyboard and left and right from within the same row.
 
+    // If the movement is positive then the search goes right and down.
+    // If the movement is negative then the search goes left and up.
+
     int leftClick = 0;
     int rightClick = 0;
     int upClick = 0;
@@ -151,7 +167,8 @@ void Keyboard::wordDirections(string word){
 
     int wordLength = word.size();
 
-    for(int i =0; i<wordLength; i++){
+    for(int i =0; i<wordLength; i++){ //loop through all of the letters of the word
+            // next 10 lines are to convert the letter from a char to a string to input findKeyIndex
             stringstream ss1;
             stringstream ss2;
             string letter_current;
@@ -166,22 +183,22 @@ void Keyboard::wordDirections(string word){
 
 
 
-        if(i==0){
-            index_current = findKeyIndex(letter_current);
-            downClick = *(index_current+0);
-            rightClick = *(index_current+1);
+        if(i==0){ // if it is the first letter, the search always starts with A
+            index_current = findKeyIndex(letter_current); //find the key index
+            downClick = *(index_current+0); // down click is the same as the row of the index
+            rightClick = *(index_current+1); // right click is the same as the column
             cout<<word[i]<<": "<<rightClick<<" right clicks";
             cout<<" and "<<downClick<<" down clicks"<<endl;
         }
-        else if(i!=0){
+        else if(i!=0){ //if it is not the first letter, the search starts with the previous letters and does comparisions to the current letter
 
-            index_current = findKeyIndex(letter_current);
-            index_previous = findKeyIndex(letter_previous);
+            index_current = findKeyIndex(letter_current); // index of the current letter
+            index_previous = findKeyIndex(letter_previous); // index of the previous letter
 
             if(*(index_current+0)-*(index_previous+0)>0 && *(index_current+1)-*(index_previous+1)>0 ){
                 //if movement is right and down
-                downClick = *(index_current+0)-*(index_previous+0);
-                rightClick = *(index_current+1)-*(index_previous+1);
+                downClick = *(index_current+0)-*(index_previous+0); //down click is equal to the row of the current minus the previous row
+                rightClick = *(index_current+1)-*(index_previous+1); //right clicks is equal to the current column minus the previous column
                 cout<<word[i]<<": "<<rightClick<<" right clicks";
                 cout<<" and "<<downClick<<" down clicks"<<endl;
 
@@ -189,24 +206,24 @@ void Keyboard::wordDirections(string word){
 
             else if(*(index_current+0)-*(index_previous+0)>0 && *(index_current+1)-*(index_previous+1)<0 ){
                 //if movement is left and down
-                downClick = *(index_current+0)-*(index_previous+0);
-                leftClick = *(index_previous+1)-*(index_current+1);
+                downClick = *(index_current+0)-*(index_previous+0); // down click is equal to the current row minus the previous row
+                leftClick = *(index_previous+1)-*(index_current+1); // left click is equal to the previous column minus the current column
                 cout<<word[i]<<": "<<leftClick<<" left clicks";
                 cout<<" and "<<downClick<<" down clicks"<<endl;
 
             }
             else if(*(index_current+0)-*(index_previous+0)<0 && *(index_current+1)-*(index_previous+1)<0){
                 //if movement is left and up
-                upClick = *(index_previous+0)-*(index_current+0);
-                leftClick = *(index_previous+1)-*(index_current+1);
+                upClick = *(index_previous+0)-*(index_current+0); // up clicks is the previous row minus the current row
+                leftClick = *(index_previous+1)-*(index_current+1); // left clicks is the previous column minus the current column
                 cout<<word[i]<<": "<<leftClick<<" left clicks";
                 cout<<" and "<<upClick<<" up clicks"<<endl;
             }
 
             else if(*(index_current+0)-*(index_previous+0)<0 && *(index_current+1)-*(index_previous+1)>0){
                 //if movement is right and up
-                upClick = *(index_previous+0)-*(index_current+0);
-                rightClick = *(index_current+1)-*(index_previous+1);
+                upClick = *(index_previous+0)-*(index_current+0); // up clicks is the previous row minus the current row
+                rightClick = *(index_current+1)-*(index_previous+1); //right clicks is the current column minus the previous column
                 cout<<word[i]<<": "<<rightClick<<" right clicks";
                 cout<<" and " <<upClick<<" up clicks"<<endl;
             }
@@ -254,7 +271,7 @@ int * Keyboard::findKeyIndex(string letter){
     bool found = isLetterInKeyboard(letter);
     if(found==false){
         cout<<"The following letter is not in the keyboard: "<<letter<<endl;
-        cout<<"The following letter is not in the keyboard: "<<letter<<endl;
+
     }
     else{
 
@@ -271,19 +288,20 @@ int * Keyboard::findKeyIndex(string letter){
         while(found_row==false){
             tmp = keyboard[row];
 
-            if(tmp->letter== letter[0]){
+            if(tmp->letter== letter[0]){ //if letter is the first index of the row
                 found_row = true;
             }
-            else if(tmp->letter + Column-1 >=letter[0]){
+            else if(tmp->letter + Column-1 >=letter[0]){ //if the letter is within the row
                 found_row = true;
             }
-            else if(tmp->letter +Column-1 < letter[0]){
+            else if(tmp->letter +Column-1 < letter[0]){ //if letter is not within the row
                 found_row = false;
                 row++;
             }
         }
         //now finding column
-        tmp = keyboard[row];
+        tmp = keyboard[row]; // set tmp equal to the first letter of the row found
+        //keep going left till the letter is found and save column
         while(found_column == false){
             if(tmp->letter!=letter[0]){
                 tmp = tmp->next;
@@ -298,6 +316,7 @@ int * Keyboard::findKeyIndex(string letter){
             }
         }
         int *index= new int[2]; //to create memory that will not be destroyed
+        // index is (row,column)
         index[0] = row;
         index[1] = column;
 
@@ -306,6 +325,7 @@ int * Keyboard::findKeyIndex(string letter){
 
 }
 void Keyboard::printIndexes(){
+    //Printing all indexes of letters
     if (Row!=0 || Column!=0){
         for(int i=0; i < Row; i++){
             for(int j=0; j < Column; j++){
@@ -321,71 +341,76 @@ void Keyboard::printIndexes(){
 
 }
 void Keyboard::deleteKeyboard(){
-    for (int i =0; i<Row; i++){
-        if(keyboard[i]!=NULL){
+    // to delete the keyboard
+    for (int i =0; i<Row; i++){ //loop through all rows
+        if(keyboard[i]!=NULL){ // if the first letter of the row is not null
             if(keyboard[i]->next==NULL){
-                keyboard[i] = NULL;
+                keyboard[i] = NULL; //if there is only one letter in the first row set it to NULL
             }
             else{
-                Key *tmp1 = keyboard[i];
+                Key *tmp1 = keyboard[i]; // If there is more than one letter then make tmp1 to save the row
                 while(tmp1->next!=NULL){
-                    Key *tmp2 = tmp1;
-                    if(tmp1->next!=NULL&& tmp1->previous!=NULL){
+                    Key *tmp2 = tmp1; // make tmp2 to delete tmp2 later
+                    if(tmp1->next!=NULL&& tmp1->previous!=NULL){ //if the letter is in the middle of the row
                         tmp1->previous->next = tmp1->next;
                         tmp1->next->previous = tmp1->previous;
                     }
-                    else if(tmp1->next!=NULL && tmp1->previous==NULL){
+                    else if(tmp1->next!=NULL && tmp1->previous==NULL){// if the letter is at the beginning of the row
                         tmp1->next->previous = NULL;
                     }
-                    else if(tmp1->next==NULL && tmp1->previous!=NULL){
+                    else if(tmp1->next==NULL && tmp1->previous!=NULL){// if the letter is at the end of the row
                         tmp1->previous->next=NULL;
                     }
-                    else if(tmp1->next==NULL && tmp1->previous==NULL){
+                    else if(tmp1->next==NULL && tmp1->previous==NULL){// if the letter is at the beginning of the row without any follow letters
                         keyboard[i]==NULL;
                     }
-                    tmp1 = tmp1->next;
-                    delete tmp2;
+                    tmp1 = tmp1->next; //next pointer
+                    delete tmp2; // delete the node;
 
                 }
             }
         }
     }
+    //Reset Row and Column to zeros again
     Row = 0;
     Column = 0;
 }
 
 void Keyboard::changeLength(int newRow){
+    //Change Length of the keyboard
     if(Row!=0 || Column!= 0  ){
-        int previousColumn = Column;
-        deleteKeyboard();
-        Row=newRow;
-        Column = previousColumn;
-        createKeyboard(Row,Column);
+        int previousColumn = Column; //hold onto old column
+        deleteKeyboard(); //delete the keyboard
+        Row=newRow; //set Public Row to the inputed newRow
+        Column = previousColumn; //set Public Column to the old column
+        createKeyboard(Row,Column); //build the keyboard again
     }
     else{
         cout<<"There are no keys in the keyboard." <<endl;
     }
 }
 void Keyboard::changeWidth(int newColumn){
+    //Change width of keyboard
     if(Row!=0 || Column!= 0  ){
-        int previousRow = Row;
-        deleteKeyboard();
-        Row=previousRow;
-        Column = newColumn;
-        createKeyboard(Row,Column);
+        int previousRow = Row; //hold onto the old row
+        deleteKeyboard(); //delete the keyboard
+        Row=previousRow; //set Public Row to the old row
+        Column = newColumn; //set Public Column to the inputed newCOlumn
+        createKeyboard(Row,Column); //build the keyboard again
     }
     else{
         cout<<"There are no keys in the keyboard." <<endl;
     }
 }
 void Keyboard::rotateKeyboard(){
+    //rotate the keyboard 90 degrees
     if(Row!=0 || Column!= 0  ){
-        int newRow = Column;
-        int newColumn = Row;
-        deleteKeyboard();
-        Row = newRow;
-        Column = newColumn;
-        createKeyboard(Row,Column);
+        int newRow = Column; //set the newRow equal to the old column
+        int newColumn = Row; //set the newColumn equal to the old row
+        deleteKeyboard(); //delete the keyboard
+        Row = newRow; //set the new row to Public row
+        Column = newColumn; //set the new column to Public Column
+        createKeyboard(Row,Column); //Create the new keyboard
     }
     else{
         cout<<"There are no keys in the keyboard." <<endl;

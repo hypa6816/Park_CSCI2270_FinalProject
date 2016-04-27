@@ -20,12 +20,14 @@ struct Key{
 	}
 
 };
+// Each Key is a struct with a char letter and pointers for the next and previous key
 
 class Keyboard
 {
 	public:
 		Keyboard();
 		~Keyboard();
+		// All the functions called from menu. Descriptions are found in README.mt
 		void createKeyboard(int row, int column);
 		void printKeyboard();
 		bool isLetterInKeyboard(std::string letter);
@@ -37,12 +39,13 @@ class Keyboard
 		void changeLength(int newRow);
 		void changeWidth(int newColumn);
 		void rotateKeyboard();
-
+        // There is a public Row and Column that can be manipulated by the main and source cpp files
+        // The Row and Column are both initialized to zero to start
 		int Row =  0;
 		int Column = 0;
-	private:
 
-		int keyboardSize;
+	private:
+        //Initalizing the array for the first letters in the column 0 for size 100;
 		Key* keyboard[100];
 
 };
