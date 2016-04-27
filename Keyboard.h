@@ -32,10 +32,14 @@ class Keyboard
 		void wordTraversing(std::string word);
 		void wordDirections(std::string word);
 		int *findKeyIndex(std::string letter);
-		void deleteKey(std::string name);
-		void insertKey(std::string name);
-		int Row;
-		int Column;
+		void printIndexes();
+		void deleteKeyboard();
+		void changeLength(int newRow);
+		void changeWidth(int newColumn);
+		void rotateKeyboard();
+
+		int Row =  0;
+		int Column = 0;
 	private:
 
 		int keyboardSize;
