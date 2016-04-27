@@ -7,7 +7,7 @@ CSCI 2270 Data Structures
 Final Project Description
 
   This project will implement an imaginary keyboard. This keyboard is made up of alpha letters and its size is inputed by the user.
-For example if the size inputed was 5(r) x 3(c), then its indexes would be:
+For example if the size inputed was 5(r) x 3(c), then the keyboard would be:
 
 A B C
 
