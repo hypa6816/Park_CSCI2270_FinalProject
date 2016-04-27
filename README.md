@@ -36,7 +36,7 @@ How to Run:
   2. Place all files in the same folder. 
   3. Run the main function and start up the menu function
   4. Choose an option.
-    - There are 11 options:
+    There are 11 options:
       1. Create Keyboard: This option will ask user for a length and column to size the keyboard and input letters in.
       2. Print Keyboard: This option will print the letters in the keyboard.
       3. Directions to a word: This option will ask user for a word then the application will look for each letter in the word     and print the directions to each letter in the word. For example if the word was HELLO and the keyboard was the            keyboard in the project description the application will print:
