@@ -1,7 +1,6 @@
 #include "Keyboard.h"
 #include <iostream>
 #include <vector>
-#include <fstream>
 #include <sstream>
 #include <string>
 #include <stdlib.h>
@@ -20,6 +19,7 @@ Keyboard::Keyboard()
 Keyboard::~Keyboard()
 {
     //dtor
+    deleteKeyboard();
 }
 
 void Keyboard::createKeyboard(int row, int column){
@@ -305,3 +305,90 @@ int * Keyboard::findKeyIndex(string letter){
     }
 
 }
+void Keyboard::printIndexes(){
+    if (Row!=0 || Column!=0){
+        for(int i=0; i < Row; i++){
+            for(int j=0; j < Column; j++){
+                cout<< "("<<i<<","<<j<<")   ";
+            }
+            cout<<endl;
+            cout<<endl;
+    }
+    }
+    else{
+        cout<< "Sorry, there are no letters in the Keyboard" <<endl;
+    }
+
+}
+void Keyboard::deleteKeyboard(){
+    for (int i =0; i<Row; i++){
+        if(keyboard[i]!=NULL){
+            if(keyboard[i]->next==NULL){
+                keyboard[i] = NULL;
+            }
+            else{
+                Key *tmp1 = keyboard[i];
+                while(tmp1->next!=NULL){
+                    Key *tmp2 = tmp1;
+                    if(tmp1->next!=NULL&& tmp1->previous!=NULL){
+                        tmp1->previous->next = tmp1->next;
+                        tmp1->next->previous = tmp1->previous;
+                    }
+                    else if(tmp1->next!=NULL && tmp1->previous==NULL){
+                        tmp1->next->previous = NULL;
+                    }
+                    else if(tmp1->next==NULL && tmp1->previous!=NULL){
+                        tmp1->previous->next=NULL;
+                    }
+                    else if(tmp1->next==NULL && tmp1->previous==NULL){
+                        keyboard[i]==NULL;
+                    }
+                    tmp1 = tmp1->next;
+                    delete tmp2;
+
+                }
+            }
+        }
+    }
+    Row = 0;
+    Column = 0;
+}
+
+void Keyboard::changeLength(int newRow){
+    if(Row!=0 || Column!= 0  ){
+        int previousColumn = Column;
+        deleteKeyboard();
+        Row=newRow;
+        Column = previousColumn;
+        createKeyboard(Row,Column);
+    }
+    else{
+        cout<<"There are no keys in the keyboard." <<endl;
+    }
+}
+void Keyboard::changeWidth(int newColumn){
+    if(Row!=0 || Column!= 0  ){
+        int previousRow = Row;
+        deleteKeyboard();
+        Row=previousRow;
+        Column = newColumn;
+        createKeyboard(Row,Column);
+    }
+    else{
+        cout<<"There are no keys in the keyboard." <<endl;
+    }
+}
+void Keyboard::rotateKeyboard(){
+    if(Row!=0 || Column!= 0  ){
+        int newRow = Column;
+        int newColumn = Row;
+        deleteKeyboard();
+        Row = newRow;
+        Column = newColumn;
+        createKeyboard(Row,Column);
+    }
+    else{
+        cout<<"There are no keys in the keyboard." <<endl;
+    }
+}
+
