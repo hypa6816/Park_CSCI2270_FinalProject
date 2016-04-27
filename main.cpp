@@ -1,10 +1,7 @@
 #include "Keyboard.h"
 #include <iostream>
-#include <iostream>
 #include <vector>
-#include <fstream>
 #include <sstream>
-#include <cstring>
 #include <string>
 #include <stdlib.h>
 
@@ -23,8 +20,13 @@ int main()
         cout << "2. Print Keyboard" << endl;
         cout << "3. Directions to Type a Word" << endl;
         cout << "4. Find and Print the Key Index" << endl;
-        cout << "5. Check if a Letter is in the Keyboard" << endl;
-        cout << "6. Quit" << endl;
+        cout << "5. Print all indexes of Keyboard" <<endl;
+        cout << "6. Check if a Letter is in the Keyboard" << endl;
+        cout << "7. Change length of Keyboard" << endl;
+        cout << "8. Change width of Keyboard" << endl;
+        cout << "9. Rotate the Keyboard" <<endl;
+        cout << "10. Delete the Keyboard" <<endl;
+        cout << "11. Quit" << endl;
         cin >> option
         ;
         cin.ignore();
@@ -35,16 +37,17 @@ int main()
         {
             //Create The Keyboard
 
-            string row1;
-            string column1;
+            string rowString;
+            string columnString;
             cout<< "Enter the length of the keyboard:" <<endl;
-            getline(cin,row1);
+            getline(cin,rowString);
             cin.ignore();
             cout<< "Enter the width of the keyboard:" <<endl;
-            getline(cin,column1);
+            getline(cin,columnString);
             cin.ignore();
-            KB.Row = atoi(row1.c_str());
-            KB.Column = atoi(column1.c_str());
+            //converting into integer
+            KB.Row = atoi(rowString.c_str());
+            KB.Column = atoi(columnString.c_str());
             KB.createKeyboard(KB.Row,KB.Column);
 
 
@@ -85,6 +88,12 @@ int main()
         }
         case 5:
         {
+            //print all indexes of the keys
+            KB.printIndexes();
+            break;
+        }
+        case 6:
+        {
 
             //check if letter is in the keyboard
             string letter;
@@ -97,11 +106,45 @@ int main()
                 cout<<"The letter is in the keyboard."<<endl;
             }
             else{
-                cout<<"THe letter is not in the keyboard."<<endl;
+                cout<<"The letter is not in the keyboard."<<endl;
             }
             break;
         }
-        case 6:
+        case 7:
+        {
+            //Change length of keyboard
+            string newRowString;
+            cout<< "Please enter the new length of the keyboard: "<<endl;
+            getline(cin, newRowString);
+            int newRow = atoi(newRowString.c_str());
+            KB.changeLength(newRow);
+
+            break;
+        }
+        case 8:
+        {
+            //Change width of keyboard
+            string newColumnString;
+            cout<< "Please enter the new width of the keyboard: "<<endl;
+            getline(cin, newColumnString);
+            int newColumn = atoi(newColumnString.c_str());
+            KB.changeWidth(newColumn);
+            break;
+        }
+        case 9:
+        {
+            //Rotate Keyboard
+            KB.rotateKeyboard();
+            break;
+        }
+        case 10:
+        {
+            //Delete Keyboard
+            KB.deleteKeyboard();
+            break;
+        }
+
+        case 11:
         {
             //Quit
             cout << "Goodbye!" << endl;
@@ -109,6 +152,6 @@ int main()
         }
         }
     }
-    while(option!=6);
+    while(option!=11);
 }
 
