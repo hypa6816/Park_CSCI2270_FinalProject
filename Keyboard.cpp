@@ -322,6 +322,7 @@ int * Keyboard::findKeyIndex(string letter){
 
         return index;
     }
+    return 0;
 
 }
 void Keyboard::printIndexes(){
